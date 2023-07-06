@@ -1,0 +1,76 @@
+﻿@page "/"
+
+@inject IJSRuntime JSRuntime
+
+<div id="myMap"></div>
+
+@code {
+    public string MapsKey { get; set; } = "2UiMYy1GYfEB6kMRqzIVSydJHcSMcwBq1T2jiiFEnIE";
+    private List<GeoData> data = new()
+    {
+        new GeoData
+        {
+            StartingIcon = "pin-red",
+            StartingTitle = "Brandon's House",
+            StartingLatitude = 39.317610,
+            StartingLongitude = -84.673460,
+            EndingIcon = "pin-round-red",
+            EndingTitle = "Sage Freight",
+            EndingLatitude = 36.035530,
+            EndingLongitude = -86.798880
+        },
+        new GeoData
+        {
+            StartingIcon = "pin-round-red",
+            StartingTitle = "Sage Freight",
+            StartingLatitude = 36.035530,
+            StartingLongitude = -86.798880,
+            EndingIcon = "pin-red",
+            EndingTitle = "University of Memphis",
+            EndingLatitude = 35.118450,
+            EndingLongitude = -89.939522
+        },
+        new GeoData
+        {
+            StartingIcon = "pin-round-red",
+            StartingTitle = "University of Memphis",
+            StartingLatitude = 35.118450,
+            StartingLongitude = -89.939522,
+            EndingIcon = "pin-red",
+            EndingTitle = "University of Alabama",
+            EndingLatitude = 33.209900,
+            EndingLongitude = -87.548203
+        },
+        new GeoData
+        {
+            StartingIcon = "pin-round-red",
+            StartingTitle = "University of Alabama",
+            StartingLatitude = 33.209900,
+            StartingLongitude = -87.548203,
+            EndingIcon = "pin-red",
+            EndingTitle = "University of Miami",
+            EndingLatitude = 25.4256142,
+            EndingLongitude = -80.16312456
+        }
+    };
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("initializeMapMultipleRoutesWithPopups", MapsKey, data);
+        }
+    }
+
+    public class GeoData
+    {
+        public double StartingLatitude { get; set; }
+        public double StartingLongitude { get; set; }
+        public string? StartingTitle { get; set; }
+        public string? StartingIcon { get; set; }
+        public double EndingLatitude { get; set; }
+        public double EndingLongitude { get; set; }
+        public string? EndingTitle { get; set; }
+        public string? EndingIcon { get; set; }
+    }
+}
